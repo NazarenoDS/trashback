@@ -24,9 +24,6 @@ const AdminScheme = new mongoose.Schema(
         phone:{
             type: Number
         },
-        tEmpployees:{
-            type: String
-        }
     },
     {
         timestamps:true, //TODO createdAt, updatedAt

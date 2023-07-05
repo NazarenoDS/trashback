@@ -25,9 +25,6 @@ const EmployeeScheme = new mongoose.Schema(
         phone:{
             type: Number
         },
-        tEmpployees:{
-            type: String
-        },
         gAssigned:{
             type: ObjectId
         }

@@ -20,9 +20,6 @@ const validatorCreateItem = [
     check("phone")
     .exists()
     .notEmpty(),
-    check("tEmployees")
-    .exists()
-    .notEmpty(),
     check("gAssidned")
     .exists()
     .notEmpty(),

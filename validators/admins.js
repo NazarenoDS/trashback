@@ -20,9 +20,6 @@ const validatorCreateItem = [
     check("phone")
     .exists()
     .notEmpty(),
-    check("tEmployees")
-    .exists()
-    .notEmpty(),
     (req, res, next) => {
         return validationResult(req, res, next)
     }
