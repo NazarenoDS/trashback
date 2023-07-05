@@ -39,8 +39,8 @@ const getItem = async (req, res) => {
 */
 const createItem = async (req, res) => {
     try {
-        const { body } = matchedData(req)
-        const data = await passModel.create(body)
+        req = matchedData(req)
+        const data = await passModel.create(req)
         res.send({data})
     } catch (e) {
         handleHttpError(res, "ERROR_CREATE_ITEMS");

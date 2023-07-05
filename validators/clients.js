@@ -3,23 +3,17 @@ const validationResult = require ("../utils/handleValidator");
 
 const validatorCreateItem = [
     check("name")
-    .exists()
-    .notEmpty(),
+    .isString(),
     check("dni")
-    .exists()
-    .notEmpty(),
+    .isInt(),
     check("birthdate")
-    .exists()
-    .notEmpty(),
+    .isDate(),
     check("phone")
-    .exists()
-    .notEmpty(),
+    .isMobilePhone(),
     check("balance")
-    .exists()
-    .notEmpty(),
+    .isInt(),
     check("idCard")
-    .exists()
-    .notEmpty(),
+    .isInt(),
     (req, res, next) => {
         return validationResult(req, res, next)
     }
