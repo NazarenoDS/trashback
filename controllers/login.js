@@ -12,18 +12,22 @@ const { matchedData } = require("express-validator");
  */
 const loginCtrl = async (req, res) => {
   try {
-    const role = req.body.role;
-    const body = matchedData(req);
+    const role = req.role;
+    req = matchedData(req);
     if( role = admins ){
-    const user = await adminsModel.findOne({ email: body.email });
+    const user = await adminsModel.findOne({ email: req.email });
     }else{
-        const user = await employeesModel.findOne({ email: body.email });
+        const user = await employeesModel.findOne({ email: req.email });
     }
     if (!user) {
       handleErrorResponse(res, "Authentic Invalid", 404);
       return;
     }
-    const checkPassword = await compare(body.password, user.password);
+    if( role = admins ){
+      const checkPassword = await compare(req.password, admins.password);
+      }else{
+        const checkPassword = await compare(req.password, employees.password);
+      }
 
     if (!checkPassword) {
       handleErrorResponse(res, "Authentic Invalid", 402);

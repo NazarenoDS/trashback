@@ -7,10 +7,10 @@ const { getItems, getItem, createItem, deleteItem } = require("../controllers/ad
 // Lista
 router.get("/", getItems);
 // Obtiene
-router.get("/:id", validatorGetItem, getItem);
+router.get("/:email", validatorGetItem, getItem);
 // Crea
 router.post("/", validatorCreateItem, createItem);
 // Borrar
-router.delete("/:id", validatorGetItem, deleteItem);
+router.delete("/:email", validatorGetItem, deleteItem);
 
 module.exports = router;

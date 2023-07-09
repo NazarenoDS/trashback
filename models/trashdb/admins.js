@@ -7,11 +7,11 @@ const AdminScheme = new mongoose.Schema(
             type: String,
             unique: true
         },
-        contraseña:{
+        password:{
             type: String,
             select: false
         },
-        nombre:{
+        name:{
             type: String
         },
         dni:{

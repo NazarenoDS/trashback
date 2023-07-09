@@ -1,6 +1,7 @@
 const { matchedData } = require("express-validator");
 const { adminsModel } = require("../models");
 const { encrypt, compare } = require ("../utils/handlePassword");
+const { tokenSign } = require("../utils/handleJwt");
 const { handleHttpError } = require("../utils/handleError");
 
 /**
@@ -11,7 +12,6 @@ const { handleHttpError } = require("../utils/handleError");
 const getItems = async (req, res) => {
     try {
         const data = await adminsModel.find({});
-        data.set("password", undefined, { strict: false });
         res.send({data});
     } catch (e) {
         handleHttpError(res, "ERROR_GET_ITEMS");
@@ -26,34 +26,27 @@ const getItems = async (req, res) => {
 const getItem = async (req, res) => {
     try{
         req = matchedData(req);
-        const {id} = req;
-        const data = await adminsModel.findById({});
-        data.set("password", undefined, { strict: false });
+        const {email} = req;
+        const data = await adminsModel.findById({email});
         res.send({data});
     } catch(e) {
         handleHttpError(res, "ERROR_GET_ITEM")
     }
 };
 
-/**
-*Insertar un registro
-*@param {*} req
-*@param {*} res
-*/
+
 const createItem = async (req, res) => {
     try {
         req = matchedData(req);
-        const {id} = req;
-        const dataAdmin = await adminsModel.findOne({});
-        dataAdmin.set("password", undefined, { strict: false });
-        const data = {
-            token: await tokenSign(dataAdmin),
-            user: dataAdmin
+        const checkIsExist = await adminsModel.findOne({ email: req.email });
+        if (checkIsExist) {
+          handleErrorResponse(res, "USER_EXISTS", 401);
+          return;
         }
-        res.send({data});
-        //const { body } = matchedData(req)
-        //const data = await adminsModel.create(body)
-        //res.send({data})
+        const password = await encrypt(req.password);
+        const bodyInsert = { ...req, password };
+        const data = await adminsModel.create(bodyInsert);
+        res.send({ data });
     } catch (e) {
         handleHttpError(res, "ERROR_CREATE_ITEMS");
     }
@@ -65,12 +58,11 @@ const createItem = async (req, res) => {
 *@param {*} res
 */
 const deleteItem = async (req, res) => {
-    try{
-        req = matchedData(req);
-        const {id} = req;
-        const data = await adminsModel.delete({_id:id});
-        data.set("password", undefined, { strict: false });
-        res.send({data});
+    try{ 
+        req = matchedData(req)
+        const {email} = req;
+        const data = await adminsModel.findOneAndDelete({email});
+        res.send({ data });
     } catch(e) {
         handleHttpError(res, "ERROR_DELETE_ITEM")
     }

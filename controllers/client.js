@@ -40,7 +40,6 @@ const getItem = async (req, res) => {
 const createItem = async (req, res) => {
     try {
         req = matchedData(req);
-        console.log(req)
         const data = await clientsModel.create(req)
         res.send({data})
     } catch (e) {

@@ -3,30 +3,24 @@ const validationResult = require ("../utils/handleValidator");
 
 const validatorCreateItem = [
     check("email")
-    .exists()
-    .notEmpty(),
-    check("contraseña")
-    .exists()
-    .notEmpty(),
-    check("nombre")
-    .exists()
-    .notEmpty(),
+    .isEmail(),
+    check("password")
+    .isString(),
+    check("name")
+    .isString(),
     check("dni")
-    .exists()
-    .notEmpty(),
+    .isInt(),
     check("birthdate")
-    .exists()
-    .notEmpty(),
+    .isDate(),
     check("phone")
-    .exists()
-    .notEmpty(),
+    .isInt(),
     (req, res, next) => {
         return validationResult(req, res, next)
     }
 ];
 
 const validatorGetItem = [
-    check("id")
+    check("email")
     .exists()
     .notEmpty(),
     (req, res, next) => {
